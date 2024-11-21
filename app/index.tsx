@@ -2,6 +2,7 @@ import { Stack, useRouter } from "expo-router";
 import { Button, Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
+import Login from "@/components/Login";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -12,40 +13,33 @@ export default function HomeScreen() {
       setIsNavigating(true);
       router.push({
         pathname: "./secondPage",
-        params: { id: '123' },
+        params: { id: "123" },
       });
       setTimeout(() => setIsNavigating(false), 1000);
     }
   };
 
-
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <SafeAreaView style={styles.safeView}>
       <Stack.Screen
         options={{
-          title: 'Вход',
-          headerTitleAlign: 'center',
-          headerTitleStyle: { fontWeight: 'bold', color: '#fff' },
+          title: "LegendCorporation",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#A0222A",
+          },
+          headerTitleStyle: { fontWeight: "bold", color: "#fff" },
         }}
       />
-      <Text style={styles.text}>Hello from reactasdasd!</Text>
-      <Button
-        title={'Press on me'}
-        onPress={handleNavigation}
-      />
+      <Login />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    color: 'orange',
-    fontSize: 26,
+  safeView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
