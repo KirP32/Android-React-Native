@@ -1,7 +1,6 @@
 import { MyDialog } from "@/components/MyDialog";
 import $api from "@/http";
 import { Boiler } from "@/models/Boiler";
-import { useRealm } from "@realm/react";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Button, Alert } from "react-native";
@@ -19,20 +18,11 @@ interface DataItem {
   };
 }
 export default function BoilersScreen() {
-  const realm = useRealm();
   const [data, setData] = useState<DataItem[]>([]);
   const [dialogVisible, setDialogVisible] = useState(false);
 
   const handleAdd = (newItem: DataItem) => {
-    // setData((prev) => [...prev, newItem]);
-    realm.write(() => {
-      realm.create(Boiler, {
-        id: newItem.id,
-        name: newItem.name,
-        status: newItem.status,
-        sensor_data: newItem.sensor_data,
-      });
-    });
+    setData((prev) => [...prev, newItem]);
   };
 
   const handlePress = () => {
