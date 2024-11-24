@@ -1,10 +1,16 @@
 import { BSON, ObjectSchema, Realm } from "realm";
+import UUID from "react-native-uuid";
 
-export class Boilers extends Realm.Object<Boilers> {
-  _id: BSON.ObjectId = new BSON.ObjectId();
+export class Boiler extends Realm.Object<Boiler> {
+  id!: string;
   name!: string;
-  isComplete: boolean = false;
-  user_id!: string;
+  status: boolean = false;
+  sensor_data!: {
+    humidity: number;
+    pressure: number;
+    temperature: number;
+    rotation_speed: number;
+  };
 
-  static primaryKey?: "_id";
+  static primaryKey = "id";
 }

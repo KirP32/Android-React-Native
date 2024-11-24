@@ -5,16 +5,39 @@ import {
   StyleSheet,
   TextInput,
   Button,
-  KeyboardAvoidingView,
   ScrollView,
-  Platform,
 } from "react-native";
+import $api from "../http";
+import uuid from "react-native-uuid";
+import { sha256 } from "js-sha256";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  const onPress = () => {};
+  const onPress = async () => {
+    const user_UUID = uuid.v4();
+    const hash = sha256(password);
+
+    const data = {
+      login: login,
+      password: hash,
+      UUID4: user_UUID,
+      isSession: true,
+    };
+
+    await $api
+      .post("/login", data)
+      .then(async () => {
+        await AsyncStorage.setItem("Logged", "true");
+        await AsyncStorage.setItem("username", login);
+        console.log("logged successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
@@ -47,7 +70,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 60,
   },
   text: {
     color: "#000",
