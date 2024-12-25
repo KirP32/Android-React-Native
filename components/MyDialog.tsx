@@ -1,3 +1,4 @@
+import { DataItem } from "@/db/queries";
 import React, { useState } from "react";
 import {
   View,
@@ -8,23 +9,13 @@ import {
   Modal,
   StyleSheet,
 } from "react-native";
-interface DataItem {
-  id: string;
-  name: string;
-  status: boolean;
-  sensor_data: {
-    humidity: number;
-    pressure: number;
-    temperature: number;
-    rotation_speed: number;
-  };
-}
+
 import UUID from "react-native-uuid";
 
 interface MyDialogProps {
   visible: boolean;
   onClose: () => void;
-  onSave: (data: DataItem) => void;
+  onSave: (data: DataItem) => Promise<void>;
 }
 
 export const MyDialog = ({ visible, onClose, onSave }: MyDialogProps) => {
@@ -57,6 +48,7 @@ export const MyDialog = ({ visible, onClose, onSave }: MyDialogProps) => {
         temperature: parseFloat(sensorData.temperature) || 0,
         rotation_speed: parseFloat(sensorData.rotation_speed) || 0,
       },
+      synced: false,
     };
     onSave(newItem);
     resetForm();
